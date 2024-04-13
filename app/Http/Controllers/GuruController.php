@@ -21,47 +21,67 @@ class GuruController extends Controller
         }
 
         if ($request->ajax() && $request->isMethod('GET')) {
-            $perPage = $request->input('per_page', 10);
-            $query = Guru::query();
+            try{
+                $perPage = $request->input('per_page', 10);
+                $query = Guru::query();
 
-            if ($request->has('search')) {
-                $searchTerm = $request->input('search');
-                $query->where('nama', 'like', "%$searchTerm%")
-                      ->orWhere('mata_pelajaran', 'like', "%$searchTerm%")
-                      ->orWhere('created_at', 'like', "%$searchTerm%");
+                if ($request->has('search')) {
+                    $searchTerm = $request->input('search');
+                    $query->where('nama', 'like', "%$searchTerm%")
+                        ->orWhere('mata_pelajaran', 'like', "%$searchTerm%")
+                        ->orWhere('created_at', 'like', "%$searchTerm%");
+                }
+
+                $data = $query->paginate($perPage);
+
+                if ($data->isEmpty()) {
+                    return Response::json(['message' => 'No data found!', 'code' => 404]);
+                } 
+
+                return Response::json(['data' => $data, 'code' => 200]);
+            } catch (\Exception $e) {
+                return Response::json(['message' => 'Error occurred while fetching data!', 'code' => 500]);
             }
+        }
+    }
 
-            $data = $query->paginate($perPage);
+    public function create(Request $request)
+    {
+        $data = [
+            'title' => 'Tambah Guru'
+        ];
 
-            if ($data->isEmpty()) {
-                return Response::json(['message' => 'No data found!', 'code' => 404]);
-            } 
-
-            return Response::json(['data' => $data, 'code' => 200]);
+        if ($request->isMethod('GET')) {
+            return view('page.dashboard.guru.create', compact('data'));
         }
 
         if ($request->ajax() && $request->isMethod('POST')) {
             $validator = Validator::make($request->all(), [
                 'nama' => 'required|string|max:255',
                 'mata_pelajaran' => 'required|string|max:255',
-                'img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
     
             if ($validator->fails()) {
                 return Response::json(['message' => $validator->errors()->first(), 'code' => 422]);
             }
 
-            $image = $request->file('img');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->storeAs('foto_guru', $imageName); 
-            
-            $data = Guru::create([
+            $data = [
                 'nama' => $request->nama,
                 'mata_pelajaran' => $request->mata_pelajaran,
-                'img' => $imageName,
-            ]);
-    
-            if (!$data) {
+                'img' => null,
+            ];
+            
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time().'.'.$image->getClientOriginalExtension();
+                $data['img'] = $imageName;
+                $image->storeAs('foto_guru', $imageName);
+            }
+            
+            $create = Guru::create($data);
+            
+            if (!$create) {
                 return Response::json(['message' => 'Failed to create data', 'code' => 500]);
             }
     
@@ -71,33 +91,41 @@ class GuruController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = Guru::find($id);
+        $data = [
+            'content' => Guru::find($id),
+            'title'=> 'Update Guru',
+        ];
         
-        if (!$data) {
+        if ($request->isMethod('GET')) {
+            return view('page.dashboard.guru.create', compact('data'));
+        }
+        
+        if (!$data['content']) {
             return Response::json(['message' => 'data not found!', 'code' => 404]);
         }
 
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:255',
             'mata_pelajaran' => 'required|string|max:255',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
             return Response::json(['message' => $validator->errors()->first(), 'code' => 422]);
         }
 
-        if ($request->hasFile('img')) {
-            if ($data->img) {
-                Storage::delete('foto_guru/' . $data->img);
+        if ($request->hasFile('image')) {
+            if ($data['content']->img) {
+                Storage::delete('foto_guru/' . $data['content']->img);
             }
 
             $image = $request->file('img');
             $imageName = time().'.'.$image->getClientOriginalExtension();
             $image->storeAs('foto_guru', $imageName);
-            $data->img = $imageName;
+            $data['content']->img = $imageName;
         }
 
-        $data->update($request->only(['nama', 'mata_pelajaran']));
+        $data['content']->update($request->only(['nama', 'mata_pelajaran']));
 
         return Response::json(['message' => 'data updated successfully', 'code' => 200]);
     }

@@ -14,7 +14,7 @@ return new class extends Migration
             $table->text('content');
             $table->enum('kategori', ['berita', 'kegiatan', 'video', 'profile', 'pengumuman', 'tentang_kami', 'hubungi_kami', 'kepala_sekolah', 'tata_tertib', 'fasilitas', 'gallery']);
             $table->integer('author');
-            $table->string('img');
+            $table->string('img')->nullable();
             $table->timestamps();
         });
     }

@@ -1,5 +1,27 @@
 import './bootstrap';
 
+tinymce.init({
+    selector: 'textarea',
+    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
+    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+});
+
+function showModal() {
+    $('#modal').removeClass('hidden');
+}
+
+function hideModal() {
+    $('#modal').addClass('hidden');
+}
+
+$(document).on('click', '#openModal', function() {
+    showModal();
+});
+
+$(document).on('click', '#closeModal', function() {
+    hideModal();
+});
+
 function handleError() {
     alert('An error occurred while processing your request. Please try again later.');
     console.error(error);

@@ -11,7 +11,7 @@
 <body>
     <div class="bg-gray-300 w-full min-h-screen">
         <div class="flex">
-            <div class="left-0 bottom-0 w-[300px] p-5 h-screen bg-gray-700 transition-width duration-300">
+            <div class="left-0 bottom-0 w-[300px] p-5 min-h-screen bg-gray-700 transition-width duration-300">
                 @include('layout.partials.dashboard.sidebar')
             </div>                        
             <div class="p-5 w-full">
@@ -29,7 +29,9 @@
     </div> 
 
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.tiny.cloud/1/a2k2kudtwwpqcx67oeeolwlri3t7q1ywzs753smm3u0wn2og/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     @vite('resources/js/app.js')
+    <script src="{{ asset('assets/js/app.js') }}"></script>
     @yield('script')
     <script>
         async function logout() {
