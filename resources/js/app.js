@@ -22,21 +22,6 @@ $(document).on('click', '#closeModal', function() {
     hideModal();
 });
 
-function handleError() {
-    alert('An error occurred while processing your request. Please try again later.');
-    console.error(error);
-}
-
-function toggleSidebar() {
-    const sidebar = document.querySelector('.left-0');
-    const sidebarContent = document.querySelector('.text-white');
-    sidebar.classList.toggle('w-[1px]');
-    sidebar.classList.toggle('p-[0px]');
-    sidebarContent.classList.toggle('hidden');
-}
-
-document.getElementById('minimizeSidebarBtn').addEventListener('click', toggleSidebar);
-
 const togglePassword = document.getElementById('togglePassword');
 const passwordInput = document.getElementById('password');
 const toggleIcon = document.getElementById('toggleIcon');

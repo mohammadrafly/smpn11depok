@@ -5,27 +5,33 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect()->route('home');
 });
 
 Route::middleware('guest')->group(function () {
-    Route::prefix('home')->group(function () {
+    Route::prefix('home')->group(function () { 
+        Route::controller(HomeController::class)->group(function () {
+            Route::get('/', 'index')->name('home');
+        });
         Route::controller(AuthController::class)->group(function () {
             Route::match(['GET', 'POST'], 'login', 'index')->name('login');
         });
     });
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('isAuthenticated')->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::controller(AuthController::class)->group(function () {
             Route::get('/logout', 'logout')->name('logout');
         });
         Route::controller(DashboardController::class)->group(function () {
             Route::get('/', 'index')->name('dashboard');
+            Route::match(['GET', 'POST'], '/profile', 'profile')->name('profile');
+            Route::post('/password', 'changePassword')->name('password.update');
         });
         Route::controller(UserController::class)->group(function () {
             Route::prefix('user')->group(function () {

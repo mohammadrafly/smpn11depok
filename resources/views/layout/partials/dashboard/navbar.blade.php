@@ -5,16 +5,26 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/>
             </svg>
         </button>        
-        <h1 class="text-gray-400 font-bold text-xl text-center">{{ strtoupper($data['title']) }}</h1>
+        <h1 class="text-gray-400 font-bold text-xl text-center flex items-center justify-center"">{{ strtoupper($data['title']) }}</h1>
     </div>
     <div class="flex">
-        <div class="mr-4">
-            <h1>{{ Auth::user()->name}}</h1>
-            <div>
-                // inisial from name as default and if has img then display it
-            </div>
-        </div>
-        <div class="relative">
+        <a href="{{ route('profile') }}" class="flex">
+            <div class="mr-4 flex items-center justify-center">
+                <h1>{{ Auth::user()->name }}</h1>
+            </div>    
+            <div class="top-0 mr-4">
+                @if(Auth::user()->profile_image)
+                    <img src="{{ Auth::user()->profile_image }}" alt="Profile Image">
+                @else
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-gray-600 font-bold text-lg">
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}{{ strtoupper(substr(strstr(Auth::user()->name, ' '), 1, 1)) }}
+                        </span>
+                    </div>
+                @endif
+            </div>   
+        </a>
+        <div class="relative flex items-center justify-center"">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
             </svg> 

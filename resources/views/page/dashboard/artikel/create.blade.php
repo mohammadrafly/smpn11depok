@@ -7,14 +7,14 @@
         <input type="text" id="id" name="id" hidden value="{{ $data['content']->id ?? '' }}">
         <div class="w-full">
             <label for="content" class="block font-medium text-gray-700 mb-1">Content</label>
-            <textarea id="content" name="content" rows="10" class="p-2 border border-gray-300 rounded-lg w-full">{{ $data['content']->content ?? ''}}</textarea>
+            <textarea id="content" name="content" rows="10" class="p-2 border border-gray-300 rounded-lg w-full h-screen">{{ $data['content']->content ?? ''}}</textarea>
         </div>
         <div class="basis-1/2">
             <div class="w-full">
                 <label for="title" class="block font-medium text-gray-700">Title</label>
                 <input type="text" id="title" name="title" placeholder="Masukan Judul" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" value="{{ $data['content']->title ?? ''}}" required>
             </div>
-            <div class="w-full">
+            <div class="w-full mt-5">
                 <label for="category" class="block font-medium text-gray-700">Category</label>
                 <select id="kategori" name="kategori" class="mt-1 p-2 border border-gray-300 rounded-lg w-full bg-white focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50 shadow-sm js-example-basic-single js-states" required>
                     <option value="{{ $data['content']->kategori ?? 'berita' }}" selected>{{ $data['content']->kategori ?? 'Berita' }}</option>
@@ -30,7 +30,7 @@
                     <option value="gallery">Gallery</option>
                 </select>
             </div>
-            <div class="mt-4">
+            <div class="mt-5">
                 <label for="image" class="block font-medium text-gray-700">Image Header</label>
                 <div class="relative w-full h-[250px] bg-white p-3 rounded-lg overflow-hidden">
                     <input value="{{ $data['content']->img ?? ''}}" type="file" id="image" name="image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="previewImage(this)">

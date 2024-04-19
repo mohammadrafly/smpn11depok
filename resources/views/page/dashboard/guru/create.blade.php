@@ -5,15 +5,15 @@
 <form id="articleForm" class="space-y-4" enctype="multipart/form-data">
     <div class="block">
         <input type="text" id="id" name="id" hidden value="{{ $data['content']->id ?? '' }}">
-        <div class="w-1/2">
+        <div class="w-1/2 mt-5">
             <label for="nama" class="block font-medium text-gray-700">Nama Guru</label>
             <input type="text" id="nama" name="nama" placeholder="Masukan Nama Guru" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" value="{{ $data['content']->nama ?? ''}}" required>
         </div>
-        <div class="w-1/2">
+        <div class="w-1/2 mt-5">
             <label for="mata_pelajaran" class="block font-medium text-gray-700">Mata Pelajaran</label>
             <input type="text" id="mata_pelajaran" name="mata_pelajaran" placeholder="Masukan Mata Pelajaran" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" value="{{ $data['content']->mata_pelajaran ?? ''}}" required>
         </div>
-        <div class="w-1/2">
+        <div class="w-1/2 mt-5">
             <label for="image" class="block font-medium text-gray-700">Foto Guru</label>
             <div class="relative w-full h-[250px] bg-white p-3 rounded-lg overflow-hidden">
                 <input value="{{ $data['content']->img ?? ''}}" type="file" id="image" name="image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="previewImage(this)">

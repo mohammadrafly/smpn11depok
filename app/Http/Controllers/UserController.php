@@ -59,9 +59,10 @@ class UserController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:8',
+                'password' => 'required|string|min:8|confirmed',
+                'password_confirmation' => 'required|string|min:8',
             ]);
-    
+        
             if ($validator->fails()) {
                 return Response::json(['message' => $validator->errors()->first(), 'code' => 422]);
             }
@@ -126,7 +127,7 @@ class UserController extends Controller
             return Response::json(['message' => 'data not found!', 'code' => 404]);
         }
 
-        $data->delete();
+        $data->delete(); 
 
         return Response::json(['message' => 'data deleted successfully', 'code' => 200]);
     }
