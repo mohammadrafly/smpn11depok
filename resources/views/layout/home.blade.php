@@ -8,15 +8,18 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     @vite('resources/css/app.css')
+    <style>
+        .animate-slide {
+            @apply transition-transform duration-500 ease-in-out;
+        }
+    </style>
 </head>
 <body>
     <div class="bg-white w-full min-h-screen">
         <div class="top-0 right-0">
             @include('layout.partials.home.navbar')
         </div>
-        <div class="min-h-screen">
-            @yield('content')
-        </div>
+        @yield('content')
         @include('layout.partials.home.footer')
     </div> 
 

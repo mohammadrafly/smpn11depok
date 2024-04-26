@@ -30,6 +30,12 @@ return [
 
     'disks' => [
 
+        'foto_artikel' => [
+            'driver' => 'local',
+            'root' => public_path('storage/foto_artikel'),
+            'url' => env('APP_URL') . '/storage/foto_artikel',
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),

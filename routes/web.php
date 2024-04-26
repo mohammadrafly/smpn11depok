@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,6 +17,13 @@ Route::middleware('guest')->group(function () {
     Route::prefix('home')->group(function () { 
         Route::controller(HomeController::class)->group(function () {
             Route::get('/', 'index')->name('home');
+            Route::get('/profile', 'profile')->name('home.profile');
+            Route::get('/pengumuman', 'pengumuman')->name('home.pengumuman');
+            Route::get('/tentang-kami', 'tentangkami')->name('home.tentangkami');
+            Route::get('/hubungi-kami', 'hubungikami')->name('home.hubungikami');
+        });
+        Route::controller(ArtikelController::class)->group(function () {
+            Route::get('/single/{id}', 'artikelSingle')->name('artikel.single');
         });
         Route::controller(AuthController::class)->group(function () {
             Route::match(['GET', 'POST'], 'login', 'index')->name('login');
@@ -66,6 +74,23 @@ Route::middleware('isAuthenticated')->group(function () {
             
                 return response()->file($path);
             })->name('foto_guru');
+        });
+        Route::controller(ReviewController::class)->group(function () {
+            Route::prefix('review')->group(function () {
+                Route::match(['GET', 'POST'], '/', 'index')->name('review');
+                Route::match(['GET', 'POST'], '/create', 'create')->name('review.create');
+                Route::match(['GET', 'POST'], '/update/{id}', 'update')->name('review.update');
+                Route::match(['GET'], '/delete/{id}', 'destroy')->name('review.delete');
+            });
+            Route::get('foto_reviewer/{filename}', function ($filename) {
+                $path = storage_path('app/foto_reviewer/' . $filename);
+            
+                if (!file_exists($path)) {
+                    abort(404);
+                }
+            
+                return response()->file($path);
+            })->name('foto_reviewer');
         });
         Route::controller(ArtikelController::class)->group(function () {
             Route::prefix('artikel')->group(function () {

@@ -1,5 +1,5 @@
 <footer class="bg-black bottom-0 lg:px-32 md:px-32 sm:px-32 p-5 py-20 text-white text-sm">
-    <div class="grid grid-cols-6 gap-10">
+    <div class="block md:grid grid-cols-6 gap-10">
         <div class="col-span-4">
             <div class="mb-5">
                 <h1 class="text-[#f47d22] text-2xl font-bold">{{ config('app.name')}}</h1>

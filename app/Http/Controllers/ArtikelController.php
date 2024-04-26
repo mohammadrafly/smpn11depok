@@ -81,7 +81,7 @@ class ArtikelController extends Controller
                 $image = $request->file('image');
                 $imageName = time().'.'.$image->getClientOriginalExtension();
                 $data['img'] = $imageName;
-                $image->storeAs('foto_artikel', $imageName);
+                $image->storeAs('public/foto_artikel', $imageName);
             }
             
             $create = Artikel::create($data);
@@ -122,12 +122,12 @@ class ArtikelController extends Controller
 
         if ($request->hasFile('image')) {
             if ($data['content']->img) {
-                Storage::delete('foto_artikel/' . $data['content']->img);
+                Storage::delete('dpublic/foto_artikel/' . $data['content']->img);
             }
 
             $image = $request->file('image');
             $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->storeAs('foto_artikel', $imageName);
+            $image->storeAs('public/foto_artikel', $imageName);
             $data['content']->img = $imageName;
         }
 
@@ -145,8 +145,18 @@ class ArtikelController extends Controller
         }
 
         $data->delete();
-        Storage::delete('foto_artikel/' . $data->img);
+        Storage::delete('public/foto_artikel/' . $data->img);
 
         return Response::json(['message' => 'data deleted successfully', 'code' => 200]);
+    }
+
+    public function artikelSingle($id)
+    {
+        $data = [
+            'title' => 'Berita',
+            'content' => Artikel::with('user')->find($id),
+        ];
+
+        return view('page.home.artikel.singleArtikel', compact('data'));
     }
 }

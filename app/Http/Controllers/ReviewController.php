@@ -2,33 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Guru;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
-class GuruController extends Controller
+class ReviewController extends Controller
 {
     public function index(Request $request)
     {
         $data = [
-            'title' => 'Guru'
+            'title' => 'Review'
         ];
 
         if (!$request->ajax() && $request->isMethod('GET')) {
-            return view('page.dashboard.guru.index', compact('data'));
+            return view('page.dashboard.review.index', compact('data'));
         }
 
         if ($request->ajax() && $request->isMethod('GET')) {
             try{
                 $perPage = $request->input('per_page', 10);
-                $query = Guru::query();
+                $query = Review::query();
 
                 if ($request->has('search')) {
                     $searchTerm = $request->input('search');
                     $query->where('nama', 'like', "%$searchTerm%")
-                        ->orWhere('mata_pelajaran', 'like', "%$searchTerm%")
+                        ->orWhere('angkatan', 'like', "%$searchTerm%")
+                        ->orWhere('reviews', 'like', "%$searchTerm%")
                         ->orWhere('created_at', 'like', "%$searchTerm%");
                 }
 
@@ -48,18 +49,19 @@ class GuruController extends Controller
     public function create(Request $request)
     {
         $data = [
-            'title' => 'Tambah Guru'
+            'title' => 'Tambah Review'
         ];
 
         if ($request->isMethod('GET')) {
-            return view('page.dashboard.guru.create', compact('data'));
+            return view('page.dashboard.review.create', compact('data'));
         }
 
         if ($request->ajax() && $request->isMethod('POST')) {
             $validator = Validator::make($request->all(), [
                 'nama' => 'required|string|max:255',
-                'mata_pelajaran' => 'required|string|max:255',
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                'angkatan' => 'required|string|max:255',
+                'reviews' => 'required|string|max:255',
+                'foto' => 'foto|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
     
             if ($validator->fails()) {
@@ -68,18 +70,19 @@ class GuruController extends Controller
 
             $data = [
                 'nama' => $request->nama,
-                'mata_pelajaran' => $request->mata_pelajaran,
-                'img' => null,
+                'angkatan' => $request->angkatan,
+                'reviews' => $request->reviews,
+                'foto' => null,
             ];
             
             if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $imageName = time().'.'.$image->getClientOriginalExtension();
-                $data['img'] = $imageName;
-                $image->storeAs('foto_guru', $imageName);
+                $foto = $request->file('image');
+                $imageName = time().'.'.$foto->getClientOriginalExtension();
+                $data['foto'] = $imageName;
+                $foto->storeAs('public/foto_reviewer', $imageName);
             }
             
-            $create = Guru::create($data);
+            $create = Review::create($data);
             
             if (!$create) {
                 return Response::json(['message' => 'Failed to create data', 'code' => 500]);
@@ -92,12 +95,12 @@ class GuruController extends Controller
     public function update(Request $request, $id)
     {
         $data = [
-            'content' => Guru::find($id),
-            'title'=> 'Update Guru',
+            'content' => Review::find($id),
+            'title'=> 'Update Review',
         ];
         
         if ($request->isMethod('GET')) {
-            return view('page.dashboard.guru.create', compact('data'));
+            return view('page.dashboard.review.create', compact('data'));
         }
         
         if (!$data['content']) {
@@ -106,8 +109,9 @@ class GuruController extends Controller
 
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:255',
-            'mata_pelajaran' => 'required|string|max:255',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'angkatan' => 'required|string|max:255',
+            'reviews' => 'required|string|max:255',
+            'foto' => 'foto|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -115,31 +119,31 @@ class GuruController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            if ($data['content']->img) {
-                Storage::delete('public/foto_guru/' . $data['content']->img);
+            if ($data['content']->foto) {
+                Storage::delete('public/foto_reviewer/' . $data['content']->foto);
             }
 
-            $image = $request->file('img');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->storeAs('foto_guru', $imageName);
-            $data['content']->img = $imageName;
+            $foto = $request->file('image');
+            $imageName = time().'.'.$foto->getClientOriginalExtension();
+            $foto->storeAs('public/foto_reviewer', $imageName);
+            $data['content']->foto = $imageName;
         }
 
-        $data['content']->update($request->only(['nama', 'mata_pelajaran']));
+        $data['content']->update($request->only(['nama', 'angkatan', 'reviews']));
 
         return Response::json(['message' => 'data updated successfully', 'code' => 200]);
     }
 
     public function destroy($id)
     {
-        $data = Guru::find($id);
+        $data = Review::find($id);
 
         if (!$data) {
             return Response::json(['message' => 'data not found!', 'code' => 404]);
         }
 
         $data->delete();
-        Storage::delete('public/foto_guru/' . $data->img);
+        Storage::delete('public/foto_reviewer/' . $data->foto);
 
         return Response::json(['message' => 'data deleted successfully', 'code' => 200]);
     }
