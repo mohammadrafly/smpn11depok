@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artikel;
+use App\Models\Activity;
+use App\Models\Page;
 use App\Models\Review;
-use Illuminate\Http\Request;
+use App\Models\Video;
 
 class HomeController extends Controller
 {
@@ -12,21 +14,24 @@ class HomeController extends Controller
     {
         $data = [
             'title' => 'Home',
-            'video' => Artikel::where('kategori', 'video')->first(),
-            'berita' => Artikel::where('kategori', 'berita')->limit(10)->get(),
+            'video' => Video::limit(1)->first(),
+            'berita' => Artikel::limit(10)->get(),
             'review' => Review::all(),
+            'activity' => Activity::all(),
         ]; 
         
+        //dd($data);
         return view('page.home.index', compact('data'));
     }
 
-    public function profile()
+    public function kepalasekolah()
     {
         $data = [
             'title' => 'Profile',
-            'video' => Artikel::where('kategori', 'profile')->first(),
+            'content' => Page::where('title', 'Kepala Sekolah')->first(),
         ]; 
         
+        //dd($data);
         return view('page.home.profile', compact('data'));
     }
 
@@ -34,7 +39,7 @@ class HomeController extends Controller
     {
         $data = [
             'title' => 'Pengumuman',
-            'video' => Artikel::where('kategori', 'pengumuman')->first(),
+            'content' => Page::where('title', 'Pengumuman')->first(),
         ]; 
         
         return view('page.home.pengumuman', compact('data'));
@@ -44,7 +49,7 @@ class HomeController extends Controller
     {
         $data = [
             'title' => 'Tentang Kami',
-            'video' => Artikel::where('kategori', 'tentang_kami')->first(),
+            'content' => Page::where('title', 'Tentang Kami')->first(),
         ]; 
         
         return view('page.home.tentangkami', compact('data'));
@@ -54,7 +59,7 @@ class HomeController extends Controller
     {
         $data = [
             'title' => 'Hubungi Kami',
-            'video' => Artikel::where('kategori', 'hubungi_kami')->first(),
+            'content' => Page::where('title', 'Hubungi Kami')->first(),
         ]; 
         
         return view('page.home.hubungikami', compact('data'));

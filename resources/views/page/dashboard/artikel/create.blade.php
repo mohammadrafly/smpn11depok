@@ -16,18 +16,10 @@
             </div>
             <div class="w-full mt-5">
                 <label for="category" class="block font-medium text-gray-700">Category</label>
-                <select id="kategori" name="kategori" class="mt-1 p-2 border border-gray-300 rounded-lg w-full bg-white focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50 shadow-sm js-example-basic-single js-states" required>
-                    <option value="{{ $data['content']->kategori ?? 'berita' }}" selected>{{ $data['content']->kategori ?? 'Berita' }}</option>
-                    <option value="kegiatan">Kegiatan</option>
-                    <option value="video">Video</option>
-                    <option value="profile">Profile</option>
-                    <option value="pengumuman">Pengumuman</option>
-                    <option value="tentang_kami">Tentang Kami</option>
-                    <option value="hubungi_kami">Hubungi Kami</option>
-                    <option value="kepala_sekolah">Kepala Sekolah</option>
-                    <option value="tata_tertib">Tata Tertib</option>
-                    <option value="fasilitas">Fasilitas</option>
-                    <option value="gallery">Gallery</option>
+                <select id="id_categori" name="id_categori" class="mt-1 p-2 border border-gray-300 rounded-lg w-full bg-white focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50 shadow-sm js-example-basic-single js-states" required>
+                    @foreach ($data['category'] as $category)
+                    <option value="{{ $category->id }}" selected>{{ $category->nama }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="mt-5">

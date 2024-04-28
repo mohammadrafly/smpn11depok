@@ -12,7 +12,7 @@
             </div>
             <input type="text" id="search" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Cari data">
         </div>
-        <a href="{{ route('user.create') }}" class="bg-blue-500 text-white px-4 py-2 ml-3 rounded-lg shadow-lg hover:bg-blue-600 transition-colors duration-300">Tambah</a>
+        <a href="{{ route('category.create') }}" class="bg-blue-500 text-white px-4 py-2 ml-3 rounded-lg shadow-lg hover:bg-blue-600 transition-colors duration-300">Tambah</a>
     </div>
 
     <table id="table" class="w-full border-collapse border border-gray-200">
@@ -20,8 +20,6 @@
             <tr class="text-left">
                 <th class="p-3">#</th>
                 <th class="p-3">Nama</th>
-                <th class="p-3">Email</th>
-                <th class="p-3">Foto</th>
                 <th class="p-3"></th>
             </tr>
         </thead>
@@ -51,7 +49,7 @@
     function fetchData() {
         const searchQuery = $('#search').val();
         $.ajax({
-            url: '{{ route('user')}}',
+            url: '{{ route('category')}}',
             type: 'GET',
             dataType: 'json',
             data: {
@@ -70,10 +68,6 @@
         });
     }
 
-    function truncateText(text, maxLength) {
-        return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
-    }
-
     function renderData(data) {
         const tableBody = document.querySelector('#table tbody');
         tableBody.innerHTML = '';
@@ -84,9 +78,7 @@
             const row = `
                         <tr>
                             <td class="p-3">${startIndex + index + 1}</td>
-                            <td class="p-3">${item.name}</td>
-                            <td class="p-3">${item.email}</td>
-                            <td class="p-3">${item.img}</td>
+                            <td class="p-3">${item.nama}</td>
                             <td class="p-3">
                                 <button onclick="editData(${item.id})" class="bg-blue-500 rounded-lg p-2 text-white font-semibold">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -106,12 +98,12 @@
     }
 
     function editData(id) {
-        const baseUrl = "{{ route('user.update', ['id' => '__ID__']) }}";
+        const baseUrl = "{{ route('category.update', ['id' => '__ID__']) }}";
         window.location.href = baseUrl.replace('__ID__', id);
     }
 
     function deleteData(id) {
-        const baseUrl = "{{ route('user.delete', ['id' => '__ID__']) }}";
+        const baseUrl = "{{ route('category.delete', ['id' => '__ID__']) }}";
         if (confirm("Are you sure you want to delete this data?")) {
             $.ajax({
                 url: baseUrl.replace('__ID__', id),

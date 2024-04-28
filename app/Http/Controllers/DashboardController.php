@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artikel;
-use App\Models\Guru;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +19,7 @@ class DashboardController extends Controller
             'title' => 'Dashboard',
             'user' => User::count(),
             'artikel' => Artikel::count(),
-            'guru' => Guru::count(),
+            'teacher' => Teacher::count(),
         ];
         
         return view('page.dashboard.index', compact('data'));

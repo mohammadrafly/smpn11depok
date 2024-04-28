@@ -1,13 +1,38 @@
-function toggleSidebar() {
-    const sidebar = document.querySelector('.left-0');
-    const sidebarContent = document.querySelector('.text-white');
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the dropdown trigger element
+    var dropdownTrigger = document.querySelector('.dropdown-trigger');
 
-    sidebar.classList.toggle('w-0');
-    sidebar.classList.toggle('p-[0px]');
-    sidebarContent.classList.toggle('hidden');
-}
+    // Get the dropdown menu
+    var dropdownMenu = document.querySelector('.dropdown-menu');
 
-document.getElementById('minimizeSidebarBtn').addEventListener('click', toggleSidebar);
+    // Add event listener for mouseover to show the dropdown menu
+    dropdownTrigger.addEventListener('mouseover', function() {
+        dropdownMenu.classList.remove('hidden');
+        dropdownMenu.classList.add('opacity-100');
+    });
+
+    // Flag to track whether the dropdown menu is open
+    var dropdownOpen = false;
+
+    // Add event listener for click outside the dropdown area to hide the dropdown menu
+    document.addEventListener('click', function(event) {
+        if (!dropdownTrigger.contains(event.target) && !dropdownMenu.contains(event.target) && dropdownOpen) {
+            dropdownMenu.classList.add('hidden');
+            dropdownMenu.classList.remove('opacity-100');
+            dropdownOpen = false;
+        }
+    });
+
+    // Add event listener for mouseleave on the dropdown menu to maintain visibility when hovering over menu items
+    dropdownMenu.addEventListener('mouseleave', function() {
+        dropdownOpen = true;
+    });
+
+    // Add event listener for mouseenter on the dropdown menu to reset dropdownOpen flag
+    dropdownMenu.addEventListener('mouseenter', function() {
+        dropdownOpen = false;
+    });
+});
 
 let currentPage = 1;
 let totalPages = 1;

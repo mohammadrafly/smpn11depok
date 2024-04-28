@@ -37,7 +37,7 @@
     </div>
     
     <div class="text-right text-yellow-500 block p-5">
-        <a href="#">See all</a>
+        <a href="{{ route('artikel.all')}}">See all</a>
         <div class="container mx-auto mt-5">
             <div class="splide">
                 <div class="splide__track">
@@ -46,7 +46,7 @@
                         <li class="splide__slide">
                             <a href="{{ route('artikel.single', $berita->id) }}">
                                 <div class="max-w-full rounded-lg overflow-hidden shadow-lg relative">
-                                    <img class="w-[4000px] h-[300px] object-cover"
+                                    <img class="w-[400px] h-[300px] object-cover"
                                         src="{{ $berita->img ? asset('storage/foto_artikel/'.$berita->img) : 'https://via.placeholder.com/200x300'}} "
                                         alt="{{ $berita->title ? $berita->title . ' - News Article' : 'Placeholder Image' }}">
                                     <div class="absolute left-0 right-0 bottom-0 h-16"
@@ -75,19 +75,31 @@
     </div>
     
     <div class="text-right text-yellow-500 block p-5">
-        <a href="#">See all</a>
+        <a href="{{ route('activity.all')}}">See all</a>
         <div class="container mx-auto mt-5">
             <div class="grid lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 gap-4">
-                @for ($j = 0; $j < 6; $j++)
-                <div class="max-w-full rounded-lg overflow-hidden shadow-lg relative">
-                    <img class="w-full" src="https://via.placeholder.com/250x250" alt="Post {{$j + 1}}">
-                    <div class="absolute left-5 right-5 bottom-5 flex flex-col justify-center">
-                        <p class="text-gray-700 text-base font-semibold text-left">Title: Lorem Ipsum</p>
-                        <p class="text-gray-700 text-base font-semibold text-left">Time: {{$j}}:00 PM</p>
-                        <p class="text-gray-700 text-base font-semibold text-left">Students: {{$j * 10}}</p>
+                @foreach ($data['activity'] as $kegiatan)   
+                <a href="{{ route('activity.single', $kegiatan->id) }}">
+                    <div class="max-w-full rounded-lg overflow-hidden shadow-lg relative">
+                        <img class="w-full"
+                            src="{{ $kegiatan->img ? asset('storage/foto_kegiatan/'.$kegiatan->img) : 'https://via.placeholder.com/200x300'}} "
+                            alt="{{ $kegiatan->title ? $kegiatan->title . ' - News Article' : 'Placeholder Image' }}">
+                        <div class="absolute left-0 right-0 bottom-0 h-16"
+                            style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);">
+                        </div>
+                        <div class="absolute left-5 right-5 bottom-5 flex flex-col justify-center">
+                            <p class="text-white text-base font-semibold text-left">{{ $kegiatan->nama }}</p>
+                            <p class="text-white text-base font-semibold text-left">{{ $kegiatan->waktu }}</p>
+                            <p class="text-white text-base font-semibold text-left">{{ $kegiatan->total_siswa }}</p>
+                        </div>
+                        <style scoped>
+                            .splide__slide img {
+                                background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+                            }
+                        </style>
                     </div>
-                </div>                        
-                @endfor
+                </a>                  
+                @endforeach
             </div>
         </div>    
     </div>
@@ -96,13 +108,13 @@
 <div class="bg-gradient-to-r from-gray-100 to-[#f1bd95] mb-[200px] lg:px-32 md:px-32 sm:px-32 mt-20">
     <div class="block w-full h-fit py-10">
         <div class="flex justify-center items-center">
-            <h1 class="text-2xl text-white font-semibold">Video</h1>
+            <h1 class="text-2xl text-black font-semibold">Video</h1>
         </div>
-        <div class="iframe-container mt-5">
+        <div class="flex justify-center items-center iframe-container mt-5">
             @if ($data['video'])
-            <iframe class="w-full h-[500px] rounded-lg" src="{{$data['video']->title}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <iframe class="w-[750px] h-[500px] rounded-lg" src="{{ $data['video']->url }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             @else
-            <img class="w-full h-[500px] rounded-lg" src="https://via.placeholder.com/750x500" alt="Post 3">
+            <img class="w-[750px] h-[500px] rounded-lg" src="https://via.placeholder.com/750x500" alt="Post 3">
             @endif
         </div>
     </div>

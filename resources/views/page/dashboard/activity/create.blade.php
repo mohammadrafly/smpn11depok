@@ -10,8 +10,8 @@
             <input type="text" id="nama" name="nama" placeholder="Masukan Nama" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" value="{{ $data['content']->nama ?? ''}}" required>
         </div>
         <div class="w-1/2 mt-5">
-            <label for="waktu" class="block font-medium text-gray-700">Lama Kegiatan</label>
-            <input type="text" id="waktu" name="waktu" placeholder="Masukan Lama Kegiatan" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" value="{{ $data['content']->waktu ?? ''}}" required>
+            <label for="waktu" class="block font-medium text-gray-700">Lama Activity</label>
+            <input type="text" id="waktu" name="waktu" placeholder="Masukan Lama Activity" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" value="{{ $data['content']->waktu ?? ''}}" required>
         </div>
         <div class="w-1/2 mt-5">
             <label for="total" class="block font-medium text-gray-700">Total Siswa</label>
@@ -22,7 +22,7 @@
             <textarea id="content" name="content" rows="5" class="p-2 border border-gray-300 rounded-lg w-full h-screen">{{ $data['content']->content ?? ''}}</textarea>
         </div>
         <div class="w-1/2 mt-5">
-            <label for="image" class="block font-medium text-gray-700">Sampul Kegiatan</label>
+            <label for="image" class="block font-medium text-gray-700">Sampul Activity</label>
             <div class="relative w-full h-[250px] bg-white p-3 rounded-lg overflow-hidden">
                 <input value="{{ $data['content']->foto ?? ''}}" type="file" id="image" name="image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="previewImage(this)">
                 <label for="image" id="image-label" class="absolute inset-0 flex items-center justify-center w-full h-full bg-[rgba(0,0,0,0.5)] text-white cursor-pointer hover:bg-[rgba(0,0,0,0.7)] transition duration-300 ease-in-out hover:opacity-75" style="background-size: cover; background-position: center;">
@@ -84,7 +84,7 @@
 
             if (response && response.code === 201) {
                 alert(response.message);
-                window.location.href = '{{ route('kegiatan')}}';
+                window.location.href = '{{ route('activity')}}';
             } else {
                 alert(response.message);
             }
@@ -103,8 +103,8 @@
             removeButton.style.display = 'block';
         }
 
-        const articleId = $('#id').val();
-        if (articleId) {
+        const id = $('#id').val();
+        if (id) {
             @if (!empty($data['content']->foto))
                 const imageUrl = '{{ route('foto_kegiatan', $data['content']->foto) }}';
                 displayExistingImage(imageUrl);
@@ -119,11 +119,11 @@
             const formData = new FormData(this);
 
             let url;
-            const articleId = $('#id').val();
-            if (articleId) {
-                url = '{{ route('kegiatan.update', ':id') }}'.replace(':id', articleId);
+            const id = $('#id').val();
+            if (id) {
+                url = '{{ route('activity.update', ':id') }}'.replace(':id', id);
             } else {
-                url = '{{ route('kegiatan.create') }}';
+                url = '{{ route('activity.create') }}';
             }
 
             const imageInput = $('#image')[0];

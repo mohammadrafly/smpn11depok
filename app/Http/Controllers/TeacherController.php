@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Guru;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
-class GuruController extends Controller
+class TeacherController extends Controller
 {
     public function index(Request $request)
     {
         $data = [
-            'title' => 'Guru'
+            'title' => 'Teacher'
         ];
 
         if (!$request->ajax() && $request->isMethod('GET')) {
-            return view('page.dashboard.guru.index', compact('data'));
+            return view('page.dashboard.teacher.index', compact('data'));
         }
 
         if ($request->ajax() && $request->isMethod('GET')) {
             try{
                 $perPage = $request->input('per_page', 10);
-                $query = Guru::query();
+                $query = Teacher::query();
 
                 if ($request->has('search')) {
                     $searchTerm = $request->input('search');
@@ -48,11 +48,11 @@ class GuruController extends Controller
     public function create(Request $request)
     {
         $data = [
-            'title' => 'Tambah Guru'
+            'title' => 'Tambah Teacher'
         ];
 
         if ($request->isMethod('GET')) {
-            return view('page.dashboard.guru.create', compact('data'));
+            return view('page.dashboard.teacher.create', compact('data'));
         }
 
         if ($request->ajax() && $request->isMethod('POST')) {
@@ -79,7 +79,7 @@ class GuruController extends Controller
                 $image->storeAs('foto_guru', $imageName);
             }
             
-            $create = Guru::create($data);
+            $create = Teacher::create($data);
             
             if (!$create) {
                 return Response::json(['message' => 'Failed to create data', 'code' => 500]);
@@ -92,12 +92,12 @@ class GuruController extends Controller
     public function update(Request $request, $id)
     {
         $data = [
-            'content' => Guru::find($id),
-            'title'=> 'Update Guru',
+            'content' => Teacher::find($id),
+            'title'=> 'Update Teacher',
         ];
         
         if ($request->isMethod('GET')) {
-            return view('page.dashboard.guru.create', compact('data'));
+            return view('page.dashboard.teacher.create', compact('data'));
         }
         
         if (!$data['content']) {
@@ -132,7 +132,7 @@ class GuruController extends Controller
 
     public function destroy($id)
     {
-        $data = Guru::find($id);
+        $data = Teacher::find($id);
 
         if (!$data) {
             return Response::json(['message' => 'data not found!', 'code' => 404]);

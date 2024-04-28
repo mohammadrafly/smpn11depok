@@ -1,13 +1,18 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\GuruController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SocialMediaController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,13 +23,22 @@ Route::middleware('guest')->group(function () {
     Route::prefix('home')->group(function () { 
         Route::controller(HomeController::class)->group(function () {
             Route::get('/', 'index')->name('home');
-            Route::get('/profile', 'profile')->name('home.profile');
+            Route::get('/kepala-sekolah', 'kepalasekolah')->name('home.kepalasekolah');
             Route::get('/pengumuman', 'pengumuman')->name('home.pengumuman');
             Route::get('/tentang-kami', 'tentangkami')->name('home.tentangkami');
             Route::get('/hubungi-kami', 'hubungikami')->name('home.hubungikami');
         });
-        Route::controller(ArtikelController::class)->group(function () {
-            Route::get('/single/{id}', 'artikelSingle')->name('artikel.single');
+        Route::prefix('artikel')->group(function () { 
+            Route::controller(ArtikelController::class)->group(function () {
+                Route::get('/', 'artikelAll')->name('artikel.all');
+                Route::get('/single/{id}', 'artikelSingle')->name('artikel.single');
+            });
+        });
+        Route::prefix('activity')->group(function () { 
+            Route::controller(ActivityController::class)->group(function () {
+                Route::get('/', 'activityAll')->name('activity.all');
+                Route::get('/single/{id}', 'activitySingle')->name('activity.single');
+            });
         });
         Route::controller(AuthController::class)->group(function () {
             Route::match(['GET', 'POST'], 'login', 'index')->name('login');
@@ -50,7 +64,7 @@ Route::middleware('isAuthenticated')->group(function () {
                 Route::match(['GET'], '/delete/{id}', 'destroy')->name('user.delete');
             });
             Route::get('foto_user/{filename}', function ($filename) {
-                $path = storage_path('app/foto_user/' . $filename);
+                $path = storage_path('app/public/foto_user/' . $filename);
             
                 if (!file_exists($path)) {
                     abort(404);
@@ -59,15 +73,15 @@ Route::middleware('isAuthenticated')->group(function () {
                 return response()->file($path);
             })->name('foto_user');
         });
-        Route::controller(GuruController::class)->group(function () {
-            Route::prefix('guru')->group(function () {
-                Route::match(['GET', 'POST'], '/', 'index')->name('guru');
-                Route::match(['GET', 'POST'], '/create', 'create')->name('guru.create');
-                Route::match(['GET', 'POST'], '/update/{id}', 'update')->name('guru.update');
-                Route::match(['GET'], '/delete/{id}', 'destroy')->name('guru.delete');
+        Route::controller(TeacherController::class)->group(function () {
+            Route::prefix('teacher')->group(function () {
+                Route::match(['GET', 'POST'], '/', 'index')->name('teacher');
+                Route::match(['GET', 'POST'], '/create', 'create')->name('teacher.create');
+                Route::match(['GET', 'POST'], '/update/{id}', 'update')->name('teacher.update');
+                Route::match(['GET'], '/delete/{id}', 'destroy')->name('teacher.delete');
             });
             Route::get('foto_guru/{filename}', function ($filename) {
-                $path = storage_path('app/foto_guru/' . $filename);
+                $path = storage_path('app/public/foto_guru/' . $filename);
             
                 if (!file_exists($path)) {
                     abort(404);
@@ -84,7 +98,7 @@ Route::middleware('isAuthenticated')->group(function () {
                 Route::match(['GET'], '/delete/{id}', 'destroy')->name('review.delete');
             });
             Route::get('foto_reviewer/{filename}', function ($filename) {
-                $path = storage_path('app/foto_reviewer/' . $filename);
+                $path = storage_path('app/public/foto_reviewer/' . $filename);
             
                 if (!file_exists($path)) {
                     abort(404);
@@ -93,15 +107,15 @@ Route::middleware('isAuthenticated')->group(function () {
                 return response()->file($path);
             })->name('foto_reviewer');
         });
-        Route::controller(KegiatanController::class)->group(function () {
-            Route::prefix('kegiatan')->group(function () {
-                Route::match(['GET', 'POST'], '/', 'index')->name('kegiatan');
-                Route::match(['GET', 'POST'], '/create', 'create')->name('kegiatan.create');
-                Route::match(['GET', 'POST'], '/update/{id}', 'update')->name('kegiatan.update');
-                Route::match(['GET'], '/delete/{id}', 'destroy')->name('kegiatan.delete');
+        Route::controller(ActivityController::class)->group(function () {
+            Route::prefix('activity')->group(function () {
+                Route::match(['GET', 'POST'], '/', 'index')->name('activity');
+                Route::match(['GET', 'POST'], '/create', 'create')->name('activity.create');
+                Route::match(['GET', 'POST'], '/update/{id}', 'update')->name('activity.update');
+                Route::match(['GET'], '/delete/{id}', 'destroy')->name('activity.delete');
             });
             Route::get('foto_kegiatan/{filename}', function ($filename) {
-                $path = storage_path('app/foto_kegiatan/' . $filename);
+                $path = storage_path('app/public/foto_kegiatan/' . $filename);
             
                 if (!file_exists($path)) {
                     abort(404);
@@ -118,7 +132,7 @@ Route::middleware('isAuthenticated')->group(function () {
                 Route::match(['GET'], '/delete/{id}', 'destroy')->name('artikel.delete');
             });
             Route::get('foto_artikel/{filename}', function ($filename) {
-                $path = storage_path('app/foto_artikel/' . $filename);
+                $path = storage_path('app/public/foto_artikel/' . $filename);
             
                 if (!file_exists($path)) {
                     abort(404);
@@ -126,6 +140,55 @@ Route::middleware('isAuthenticated')->group(function () {
             
                 return response()->file($path);
             })->name('foto_artikel');
+        });
+        Route::controller(HeaderController::class)->group(function () {
+            Route::prefix('header')->group(function () {
+                Route::match(['GET', 'POST'], '/', 'index')->name('header');
+                Route::match(['GET', 'POST'], '/create', 'create')->name('header.create');
+                Route::match(['GET', 'POST'], '/update/{id}', 'update')->name('header.update');
+                Route::match(['GET'], '/delete/{id}', 'destroy')->name('header.delete');
+            });
+            Route::get('foto_header/{filename}', function ($filename) {
+                $path = storage_path('app/public/foto_header/' . $filename);
+            
+                if (!file_exists($path)) {
+                    abort(404);
+                }
+            
+                return response()->file($path);
+            })->name('foto_header');
+        });
+        Route::controller(CategoryController::class)->group(function () {
+            Route::prefix('category')->group(function () {
+                Route::match(['GET', 'POST'], '/', 'index')->name('category');
+                Route::match(['GET', 'POST'], '/create', 'create')->name('category.create');
+                Route::match(['GET', 'POST'], '/update/{id}', 'update')->name('category.update');
+                Route::match(['GET'], '/delete/{id}', 'destroy')->name('category.delete');
+            });
+        });
+        Route::controller(PageController::class)->group(function () {
+            Route::prefix('page')->group(function () {
+                Route::match(['GET', 'POST'], '/', 'index')->name('page');
+                Route::match(['GET', 'POST'], '/create', 'create')->name('page.create');
+                Route::match(['GET', 'POST'], '/update/{id}', 'update')->name('page.update');
+                Route::match(['GET'], '/delete/{id}', 'destroy')->name('page.delete');
+            });
+        });
+        Route::controller(SocialMediaController::class)->group(function () {
+            Route::prefix('socialmedia')->group(function () {
+                Route::match(['GET', 'POST'], '/', 'index')->name('socialmedia');
+                Route::match(['GET', 'POST'], '/create', 'create')->name('socialmedia.create');
+                Route::match(['GET', 'POST'], '/update/{id}', 'update')->name('socialmedia.update');
+                Route::match(['GET'], '/delete/{id}', 'destroy')->name('socialmedia.delete');
+            });
+        });
+        Route::controller(VideoController::class)->group(function () {
+            Route::prefix('video')->group(function () {
+                Route::match(['GET', 'POST'], '/', 'index')->name('video');
+                Route::match(['GET', 'POST'], '/create', 'create')->name('video.create');
+                Route::match(['GET', 'POST'], '/update/{id}', 'update')->name('video.update');
+                Route::match(['GET'], '/delete/{id}', 'destroy')->name('video.delete');
+            });
         });
     });
 }); 

@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('review', function (Blueprint $table) {
             $table->id();
-            $table->string('foto')->nullable();
+            $table->string('img')->nullable();
             $table->string('nama');
             $table->string('angkatan');
             $table->string('reviews');

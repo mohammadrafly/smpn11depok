@@ -20,7 +20,6 @@
             <tr class="text-left">
                 <th class="p-3">#</th>
                 <th class="p-3">Judul</th>
-                <th class="p-3">Konten</th>
                 <th class="p-3">Kategori</th>
                 <th class="p-3">Author</th>
                 <th class="p-3">Sampul</th>
@@ -87,9 +86,8 @@
                         <tr>
                             <td class="p-3">${startIndex + index + 1}</td>
                             <td class="p-3">${item.title}</td>
-                            <td class="p-3">${truncateText(item.content, 100)}</td>
-                            <td class="p-3">${item.kategori}</td>
-                            <td class="p-3">${item.author}</td>
+                            <td class="p-3">${item.category.nama}</td>
+                            <td class="p-3">${item.user.name}</td>
                             <td class="p-3">${item.img}</td>
                             <td class="p-3">
                                 <button onclick="editArticle(${item.id})" class="bg-blue-500 rounded-lg p-2 text-white font-semibold">

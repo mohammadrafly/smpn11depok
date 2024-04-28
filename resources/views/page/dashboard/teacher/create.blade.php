@@ -6,15 +6,15 @@
     <div class="block">
         <input type="text" id="id" name="id" hidden value="{{ $data['content']->id ?? '' }}">
         <div class="w-1/2 mt-5">
-            <label for="nama" class="block font-medium text-gray-700">Nama Guru</label>
-            <input type="text" id="nama" name="nama" placeholder="Masukan Nama Guru" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" value="{{ $data['content']->nama ?? ''}}" required>
+            <label for="nama" class="block font-medium text-gray-700">Nama Teacher</label>
+            <input type="text" id="nama" name="nama" placeholder="Masukan Nama Teacher" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" value="{{ $data['content']->nama ?? ''}}" required>
         </div>
         <div class="w-1/2 mt-5">
             <label for="mata_pelajaran" class="block font-medium text-gray-700">Mata Pelajaran</label>
             <input type="text" id="mata_pelajaran" name="mata_pelajaran" placeholder="Masukan Mata Pelajaran" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" value="{{ $data['content']->mata_pelajaran ?? ''}}" required>
         </div>
         <div class="w-1/2 mt-5">
-            <label for="image" class="block font-medium text-gray-700">Foto Guru</label>
+            <label for="image" class="block font-medium text-gray-700">Foto Teacher</label>
             <div class="relative w-full h-[250px] bg-white p-3 rounded-lg overflow-hidden">
                 <input value="{{ $data['content']->img ?? ''}}" type="file" id="image" name="image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="previewImage(this)">
                 <label for="image" id="image-label" class="absolute inset-0 flex items-center justify-center w-full h-full bg-[rgba(0,0,0,0.5)] text-white cursor-pointer hover:bg-[rgba(0,0,0,0.7)] transition duration-300 ease-in-out hover:opacity-75" style="background-size: cover; background-position: center;">
@@ -76,7 +76,7 @@
 
             if (response && response.code === 201) {
                 alert(response.message);
-                window.location.href = '{{ route('guru')}}';
+                window.location.href = '{{ route('teacher')}}';
             } else {
                 alert(response.message);
             }
@@ -113,9 +113,9 @@
             let url;
             const articleId = $('#id').val();
             if (articleId) {
-                url = '{{ route('guru.update', ':id') }}'.replace(':id', articleId);
+                url = '{{ route('teacher.update', ':id') }}'.replace(':id', articleId);
             } else {
-                url = '{{ route('guru.create') }}';
+                url = '{{ route('teacher.create') }}';
             }
 
             const imageInput = $('#image')[0];

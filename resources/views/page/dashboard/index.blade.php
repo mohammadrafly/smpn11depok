@@ -19,7 +19,7 @@
             </svg>
             <div class="items-center mb-3 pr-5">
                 <h3 class="text-2xl font-semibold">Guru</h3>
-                <p class="text-2xl my-5">{{ $data['guru'] }}</p>
+                <p class="text-2xl my-5">{{ $data['teacher'] }}</p>
             </div>
         </div>
         <div class="w-full bg-white p-3 rounded-lg flex justify-between items-center">
