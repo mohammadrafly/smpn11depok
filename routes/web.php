@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
@@ -91,6 +92,23 @@ Route::middleware('isAuthenticated')->group(function () {
             
                 return response()->file($path);
             })->name('foto_reviewer');
+        });
+        Route::controller(KegiatanController::class)->group(function () {
+            Route::prefix('kegiatan')->group(function () {
+                Route::match(['GET', 'POST'], '/', 'index')->name('kegiatan');
+                Route::match(['GET', 'POST'], '/create', 'create')->name('kegiatan.create');
+                Route::match(['GET', 'POST'], '/update/{id}', 'update')->name('kegiatan.update');
+                Route::match(['GET'], '/delete/{id}', 'destroy')->name('kegiatan.delete');
+            });
+            Route::get('foto_kegiatan/{filename}', function ($filename) {
+                $path = storage_path('app/foto_kegiatan/' . $filename);
+            
+                if (!file_exists($path)) {
+                    abort(404);
+                }
+            
+                return response()->file($path);
+            })->name('foto_kegiatan');
         });
         Route::controller(ArtikelController::class)->group(function () {
             Route::prefix('artikel')->group(function () {
