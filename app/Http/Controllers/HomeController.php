@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Artikel;
 use App\Models\Activity;
-use App\Models\Page;
+use App\Models\Category;
 use App\Models\Review;
+use App\Models\SocialMedia;
+use App\Models\Teacher;
 use App\Models\Video;
+use Illuminate\Support\Facades\Response;
 
 class HomeController extends Controller
 {
@@ -20,7 +23,6 @@ class HomeController extends Controller
             'activity' => Activity::all(),
         ]; 
         
-        //dd($data);
         return view('page.home.index', compact('data'));
     }
 
@@ -28,18 +30,18 @@ class HomeController extends Controller
     {
         $data = [
             'title' => 'Profile',
-            'content' => Page::where('title', 'Kepala Sekolah')->first(),
         ]; 
         
-        //dd($data);
-        return view('page.home.profile', compact('data'));
+        return view('page.home.kepalasekolah', compact('data'));
     }
 
     public function pengumuman()
     {
+        $activities = Activity::all();
         $data = [
             'title' => 'Pengumuman',
-            'content' => Page::where('title', 'Pengumuman')->first(),
+            'content' => $activities->isEmpty() ? null : $activities,
+            'category' => Category::all(),
         ]; 
         
         return view('page.home.pengumuman', compact('data'));
@@ -49,7 +51,6 @@ class HomeController extends Controller
     {
         $data = [
             'title' => 'Tentang Kami',
-            'content' => Page::where('title', 'Tentang Kami')->first(),
         ]; 
         
         return view('page.home.tentangkami', compact('data'));
@@ -59,9 +60,68 @@ class HomeController extends Controller
     {
         $data = [
             'title' => 'Hubungi Kami',
-            'content' => Page::where('title', 'Hubungi Kami')->first(),
         ]; 
         
         return view('page.home.hubungikami', compact('data'));
+    }
+
+    public function guru()
+    {
+        $data = [
+            'title' => 'Guru',
+            'content' => Teacher::all(),
+        ]; 
+        
+        return view('page.home.guru', compact('data'));
+    }
+
+    public function tatatertib()
+    {
+        $data = [
+            'title' => 'Tata Tertib',
+        ]; 
+        
+        return view('page.home.tatatertib', compact('data'));
+    }
+
+    public function fasilitas()
+    {
+        $data = [
+            'title' => 'Fasilitas',
+        ]; 
+        
+        return view('page.home.fasilitas', compact('data'));
+    }
+
+    public function gallery()
+    {
+        $data = [
+            'title' => 'Gallery',
+        ]; 
+        
+        return view('page.home.gallery', compact('data'));
+    }
+
+    public function getSocialMedia()
+    {
+        $socialmedia = SocialMedia::all();
+
+        if ($socialmedia->isEmpty()) {
+            return Response::json(['message' => 'No data found!', 'code' => 404]);
+        } 
+
+        return Response::json(['data' => $socialmedia, 'code' => 200]);
+    }
+    
+    public function getCategoryById($id)
+    {
+        $artikel = Artikel::with('category')->where('id_categori', $id)->get();
+        $data = [
+            'title' => 'Category',
+            'content' => $artikel->isEmpty() ? null : $artikel,
+            'category' => Category::all(),
+        ];
+
+        return view('page.home.category', compact('data'));
     }
 }

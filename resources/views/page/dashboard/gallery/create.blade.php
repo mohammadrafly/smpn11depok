@@ -5,23 +5,23 @@
 <form id="articleForm" class="space-y-4" enctype="multipart/form-data">
     <div class="block">
         <input type="text" id="id" name="id" hidden value="{{ $data['content']->id ?? '' }}">
-        <div class="w-1/2 mt-5">
-            <label for="nama" class="block font-medium text-gray-700">Nama</label>
-            <input type="text" id="nama" name="nama" placeholder="Masukan Nama" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" value="{{ $data['content']->nama ?? ''}}" required>
+        <div class="w-full mt-5">
+            <label for="category" class="block font-medium text-gray-700">Category</label>
+            <select id="id_categori" name="id_categori" class="mt-1 p-2 border border-gray-300 rounded-lg w-full bg-white focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50 shadow-sm js-example-basic-single js-states" required>
+                <option value="{{ $data['content']->id_categori}}" selected>{{ $data['content']->category->nama }}</option>
+                @foreach ($data['category'] as $category)
+                    @if ($data['content']->id_categori)
+                        <option value="{{ $category->id }}">{{ $category->nama }}</option>
+                    @else
+                        <option value="{{ $category->id }}" selected>{{ $category->nama }}</option>
+                    @endif
+                @endforeach
+            </select>
         </div>
         <div class="w-1/2 mt-5">
-            <label for="angkatan" class="block font-medium text-gray-700">Angkatan</label>
-            <input type="number" id="angkatan" name="angkatan" placeholder="Masukan Tahun Angkatan" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" 
-                value="{{ $data['content']->angkatan ?? ''}}" min="1999" max="2025" step="1" required>
-        </div>
-        <div class="w-1/2 mt-5">
-            <label for="reviews" class="block font-medium text-gray-700">Reviews</label>
-            <textarea id="reviews" name="reviews" rows="5" class="p-2 border border-gray-300 rounded-lg w-full h-screen">{{ $data['content']->reviews ?? ''}}</textarea>
-        </div>
-        <div class="w-1/2 mt-5">
-            <label for="image" class="block font-medium text-gray-700">Img Reviewer</label>
+            <label for="image" class="block font-medium text-gray-700">Foto</label>
             <div class="relative w-full h-[250px] bg-white p-3 rounded-lg overflow-hidden">
-                <input value="{{ $data['content']->img ?? ''}}" type="file" id="image" name="image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="previewImage(this)">
+                <input value="{{ $data['content']->foto ?? ''}}" type="file" id="image" name="image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="previewImage(this)">
                 <label for="image" id="image-label" class="absolute inset-0 flex items-center justify-center w-full h-full bg-[rgba(0,0,0,0.5)] text-white cursor-pointer hover:bg-[rgba(0,0,0,0.7)] transition duration-300 ease-in-out hover:opacity-75" style="background-size: cover; background-position: center;">
                     <span id="remove-image" class="absolute p-2 top-0 right-0 mt-2 mr-2 bg-gray-800 rounded-lg text-white cursor-pointer hidden">&times;</span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -81,7 +81,7 @@
 
             if (response && response.code === 201) {
                 alert(response.message);
-                window.location.href = '{{ route('review')}}';
+                window.location.href = '{{ route('gallery')}}';
             } else {
                 alert(response.message);
             }
@@ -103,7 +103,7 @@
         const articleId = $('#id').val();
         if (articleId) {
             @if (!empty($data['content']->img))
-                const imageUrl = '{{ route('foto_reviewer', $data['content']->img) }}';
+                const imageUrl = '{{ route('gallery_foto', $data['content']->img) }}';
                 displayExistingImage(imageUrl);
             @else 
                 //nothing
@@ -118,9 +118,9 @@
             let url;
             const articleId = $('#id').val();
             if (articleId) {
-                url = '{{ route('review.update', ':id') }}'.replace(':id', articleId);
+                url = '{{ route('gallery.update', ':id') }}'.replace(':id', articleId);
             } else {
-                url = '{{ route('review.create') }}';
+                url = '{{ route('gallery.create') }}';
             }
 
             const imageInput = $('#image')[0];

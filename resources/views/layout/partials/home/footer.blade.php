@@ -1,4 +1,4 @@
-<footer class="bg-black bottom-0 lg:px-32 md:px-32 sm:px-32 p-5 py-20 text-white text-sm">
+<footer class="py-32 bg-black bottom-0 lg:px-32 md:px-32 sm:px-32 p-5 text-white text-sm">
     <div class="block md:grid grid-cols-6 gap-10">
         <div class="col-span-4">
             <div class="mb-5">
@@ -13,20 +13,7 @@
                     © {{date('Y')}} {{ config('app.name') }}. All rights reserved.
                 </p>
             </div>
-            <div>
-                <a href="#" class="text-white hover:text-gray-400">
-                    <i class="w-5 h-5 fab fa-facebook-square"></i>
-                </a>
-                <a href="#" class="text-white hover:text-gray-400 ml-3">
-                    <i class="w-5 h-5 fab fa-twitter-square"></i>
-                </a>
-                <a href="#" class="text-white hover:text-gray-400 ml-3">
-                    <i class="w-5 h-5 fab fa-instagram-square"></i>
-                </a>
-                <a href="#" class="text-white hover:text-gray-400 ml-3">
-                    <i class="w-5 h-5 fab fa-linkedin"></i>
-                </a>
-            </div>
+            <div class="social-media-icons"></div>
         </div>
         <div class="col-span-1">
             <div>
@@ -56,6 +43,9 @@
                 </p>
                 <p class="mt-2">
                     <a href="{{ route('home.hubungikami') }}" class="mt-2">Hubungi Kami</a>
+                </p>
+                <p class="mt-2">
+                    <a href="{{ route('login') }}" class="mt-2">Login</a>
                 </p>
             </div> 
         </div>

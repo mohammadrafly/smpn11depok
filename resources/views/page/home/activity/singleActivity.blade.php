@@ -2,7 +2,7 @@
 
 @section('post')
 
-<div class="py-10 text-left">
+<div class="text-left">
     <img class="w-full h-[500px] rounded-lg" src="{{ isset($data['content']->img) ? asset('storage/foto_kegiatan/'.$data['content']->img) : 'https://via.placeholder.com/750x500' }}" alt="">
     <h1 class="text-5xl font-bold py-5">{{ $data['content']->title }}</h1>
     <p class="flex items-center text-gray-400 py-5">

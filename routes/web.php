@@ -7,9 +7,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\VideoController;
@@ -22,11 +22,17 @@ Route::get('/', function () {
 Route::middleware('guest')->group(function () {
     Route::prefix('home')->group(function () { 
         Route::controller(HomeController::class)->group(function () {
+            Route::get('/socialmedia', 'getSocialMedia')->name('get.socialmedia');
+            Route::get('/category/{id}', 'getCategoryById')->name('get.category.id');
             Route::get('/', 'index')->name('home');
             Route::get('/kepala-sekolah', 'kepalasekolah')->name('home.kepalasekolah');
             Route::get('/pengumuman', 'pengumuman')->name('home.pengumuman');
             Route::get('/tentang-kami', 'tentangkami')->name('home.tentangkami');
             Route::get('/hubungi-kami', 'hubungikami')->name('home.hubungikami');
+            Route::get('/guru', 'guru')->name('home.guru');
+            Route::get('/tatatertib', 'tatatertib')->name('home.tatatertib');
+            Route::get('/fasilitas', 'fasilitas')->name('home.fasilitas');
+            Route::get('/gallery', 'gallery')->name('home.gallery');
         });
         Route::prefix('artikel')->group(function () { 
             Route::controller(ArtikelController::class)->group(function () {
@@ -166,13 +172,22 @@ Route::middleware('isAuthenticated')->group(function () {
                 Route::match(['GET'], '/delete/{id}', 'destroy')->name('category.delete');
             });
         });
-        Route::controller(PageController::class)->group(function () {
-            Route::prefix('page')->group(function () {
-                Route::match(['GET', 'POST'], '/', 'index')->name('page');
-                Route::match(['GET', 'POST'], '/create', 'create')->name('page.create');
-                Route::match(['GET', 'POST'], '/update/{id}', 'update')->name('page.update');
-                Route::match(['GET'], '/delete/{id}', 'destroy')->name('page.delete');
+        Route::controller(GalleryController::class)->group(function () {
+            Route::prefix('gallery')->group(function () {
+                Route::match(['GET', 'POST'], '/', 'index')->name('gallery');
+                Route::match(['GET', 'POST'], '/create', 'create')->name('gallery.create');
+                Route::match(['GET', 'POST'], '/update/{id}', 'update')->name('gallery.update');
+                Route::match(['GET'], '/delete/{id}', 'destroy')->name('gallery.delete');
             });
+            Route::get('gallery/{filename}', function ($filename) {
+                $path = storage_path('app/public/gallery/' . $filename);
+            
+                if (!file_exists($path)) {
+                    abort(404);
+                }
+            
+                return response()->file($path);
+            })->name('gallery_foto');
         });
         Route::controller(SocialMediaController::class)->group(function () {
             Route::prefix('socialmedia')->group(function () {

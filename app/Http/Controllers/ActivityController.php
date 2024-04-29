@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
@@ -156,6 +157,7 @@ class ActivityController extends Controller
         $data = [
             'title' => 'Activity',
             'content' => Activity::find($id),
+            'category' => Category::all(),
         ];
 
         return view('page.home.activity.singleActivity', compact('data'));
@@ -163,11 +165,14 @@ class ActivityController extends Controller
 
     public function activityAll()
     {
+        $activities = Activity::all();
+        
         $data = [
             'title' => 'Activity',
-            'content' => Activity::all(),
+            'content' => $activities->isEmpty() ? null : $activities,
+            'category' => Category::all(),
         ];
-
+    
         return view('page.home.activity.allActivity', compact('data'));
-    }
+    }    
 }

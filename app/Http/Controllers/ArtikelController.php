@@ -158,6 +158,7 @@ class ArtikelController extends Controller
         $data = [
             'title' => 'Berita',
             'content' => Artikel::with('user')->find($id),
+            'category' => Category::all(),
         ];
 
         return view('page.home.artikel.singleArtikel', compact('data'));
@@ -165,9 +166,12 @@ class ArtikelController extends Controller
 
     public function artikelAll()
     {
+        $artikel = Artikel::with('user')->get();
+
         $data = [
             'title' => 'Berita',
-            'content' => Artikel::with('user')->get(),
+            'content' => $artikel->isEmpty() ? null : $artikel,
+            'category' => Category::all(),
         ];
 
         return view('page.home.artikel.allArtikel', compact('data'));

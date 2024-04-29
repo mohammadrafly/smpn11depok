@@ -13,8 +13,8 @@
                 <h1>{{ Auth::user()->name }}</h1>
             </div>    
             <div class="top-0 mr-4">
-                @if(Auth::user()->profile_image)
-                    <img src="{{ Auth::user()->profile_image }}" alt="Profile Image">
+                @if(Auth::user()->img)
+                    <img src="{{ asset('storage/foto_user/' . Auth::user()->img) }}" alt="Profile Image" class="w-10 h-10 rounded-full object-cover">
                 @else
                     <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
                         <span class="text-gray-600 font-bold text-lg">

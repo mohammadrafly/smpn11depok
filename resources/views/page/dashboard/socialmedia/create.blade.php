@@ -6,13 +6,14 @@
     <div class="block">
         <input type="text" id="id" name="id" hidden value="{{ $data['content']->id ?? '' }}">
         <div class="w-1/2 mt-5">
-            <label for="title" class="block font-medium text-gray-700">Judul</label>
-            <input type="text" id="title" name="title" placeholder="Masukan Judul" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" value="{{ $data['content']->title ?? ''}}" required>
-        </div> 
-        <div class="w-full">
-            <label for="content" class="block font-medium text-gray-700 mb-1">Content</label>
-            <textarea id="content" name="content" rows="10" class="p-2 border border-gray-300 rounded-lg w-full h-screen">{{ $data['content']->content ?? ''}}</textarea>
-        </div>       
+            <label for="url" class="block font-medium text-gray-700">Url</label>
+            <input type="text" id="url" name="url" placeholder="Masukan Url" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" value="{{ $data['content']->url ?? ''}}" required>
+        </div>   
+        <div class="w-1/2 mt-5">
+            <label for="icon" class="block font-medium text-gray-700">SVG Icon</label>
+            <input type="text" id="icon" name="icon" placeholder="Masukan SVG Icon" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" value="{{ $data['content']->icon ?? ''}}" required>
+        </div>  
+        <p>Cari Icon di website ini <a href="https://fontawesome.com/icons" class="text-sky-500 font-semibold" target="_blank">FontAwesome</a></p>       
     </div>
     <div class="text-left">
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-600 transition-colors duration-300">Simpan</button>
@@ -23,10 +24,10 @@
 
 @section('script')
 <script>
-    async function submitData(formData, title) {
+    async function submitData(formData, url) {
         try {
             const response = await $.ajax({
-                title: title,
+                url: url,
                 type: 'POST',
                 data: formData,
                 contentType: false,
@@ -39,7 +40,7 @@
 
             if (response && response.code === 201) {
                 alert(response.message);
-                window.location.href = '{{ route('page')}}';
+                window.location.href = '{{ route('socialmedia')}}';
             } else {
                 alert(response.message);
             }
@@ -57,15 +58,15 @@
 
             const formData = new FormData(this);
 
-            let title;
+            let url;
             const id = $('#id').val();
             if (id) {
-                title = '{{ route('page.update', ':id') }}'.replace(':id', id);
+                url = '{{ route('socialmedia.update', ':id') }}'.replace(':id', id);
             } else {
-                title = '{{ route('page.create') }}';
+                url = '{{ route('socialmedia.create') }}';
             }
 
-            submitData(formData, title);
+            submitData(formData, url);
         });
     });
 </script>

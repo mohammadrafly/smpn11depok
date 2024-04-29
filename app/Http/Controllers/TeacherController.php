@@ -76,7 +76,7 @@ class TeacherController extends Controller
                 $image = $request->file('image');
                 $imageName = time().'.'.$image->getClientOriginalExtension();
                 $data['img'] = $imageName;
-                $image->storeAs('foto_guru', $imageName);
+                $image->storeAs('public/foto_guru/', $imageName);
             }
             
             $create = Teacher::create($data);

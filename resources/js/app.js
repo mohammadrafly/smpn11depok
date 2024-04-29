@@ -4,7 +4,7 @@ function toggleSidebar() {
     const sidebar = document.querySelector('.left-0');
     const sidebarContent = document.querySelector('.text-white');
 
-    sidebar.classList.toggle('w-[0px]');
+    sidebar.classList.toggle('w-auto');
     sidebar.classList.toggle('p-[0px]');
     sidebarContent.classList.toggle('hidden');
 }
