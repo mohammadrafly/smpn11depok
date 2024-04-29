@@ -189,6 +189,22 @@ Route::middleware('isAuthenticated')->group(function () {
                 return response()->file($path);
             })->name('gallery_foto');
         });
+        Route::controller(HeaderController::class)->group(function () {
+            Route::prefix('header')->group(function () {
+                Route::match(['GET', 'POST'], '/', 'index')->name('header');
+                Route::match(['GET', 'POST'], '/create', 'create')->name('header.create');
+                Route::match(['GET', 'POST'], '/update/{id}', 'update')->name('header.update');
+            });
+            Route::get('header/{filename}', function ($filename) {
+                $path = storage_path('app/public/header/' . $filename);
+            
+                if (!file_exists($path)) {
+                    abort(404);
+                }
+            
+                return response()->file($path);
+            })->name('header_foto');
+        });
         Route::controller(SocialMediaController::class)->group(function () {
             Route::prefix('socialmedia')->group(function () {
                 Route::match(['GET', 'POST'], '/', 'index')->name('socialmedia');

@@ -5,23 +5,10 @@
 <form id="articleForm" class="space-y-4" enctype="multipart/form-data">
     <div class="block">
         <input type="text" id="id" name="id" hidden value="{{ $data['content']->id ?? '' }}">
-        <div class="w-full mt-5">
-            <label for="category" class="block font-medium text-gray-700">Category</label>
-            <select id="id_categori" name="id_categori" class="mt-1 p-2 border border-gray-300 rounded-lg w-full bg-white focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50 shadow-sm js-example-basic-single js-states" required>
-                <option value="{{ $data['content']->id_categori ?? ''}}" selected>{{ $data['content']->category->nama ?? '' }}</option>
-                @foreach ($data['category'] as $category)
-                    @if (isset($data['content']->id_categori))
-                        <option value="{{ $category->id }}">{{ $category->nama }}</option>
-                    @else
-                        <option value="{{ $category->id }}" selected>{{ $category->nama }}</option>
-                    @endif
-                @endforeach
-            </select>
-        </div>
         <div class="w-1/2 mt-5">
-            <label for="image" class="block font-medium text-gray-700">Foto</label>
+            <label for="image" class="block font-medium text-gray-700">Foto Header</label>
             <div class="relative w-full h-[250px] bg-white p-3 rounded-lg overflow-hidden">
-                <input value="{{ $data['content']->foto ?? ''}}" type="file" id="image" name="image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="previewImage(this)">
+                <input value="{{ $data['content']->img ?? ''}}" type="file" id="image" name="image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".png" onchange="previewImage(this)">
                 <label for="image" id="image-label" class="absolute inset-0 flex items-center justify-center w-full h-full bg-[rgba(0,0,0,0.5)] text-white cursor-pointer hover:bg-[rgba(0,0,0,0.7)] transition duration-300 ease-in-out hover:opacity-75" style="background-size: cover; background-position: center;">
                     <span id="remove-image" class="absolute p-2 top-0 right-0 mt-2 mr-2 bg-gray-800 rounded-lg text-white cursor-pointer hidden">&times;</span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -30,6 +17,7 @@
                     </svg>
                 </label>
             </div>
+            <p class="text-red-500">*PNG Only</p>
         </div>          
     </div>
     <div class="text-left">
@@ -81,7 +69,7 @@
 
             if (response && response.code === 201) {
                 alert(response.message);
-                window.location.href = '{{ route('gallery')}}';
+                window.location.href = '{{ route('header')}}';
             } else {
                 alert(response.message);
             }
@@ -103,7 +91,7 @@
         const articleId = $('#id').val();
         if (articleId) {
             @if (!empty($data['content']->img))
-                const imageUrl = '{{ route('gallery_foto', $data['content']->img) }}';
+                const imageUrl = '{{ route('header_foto', $data['content']->img) }}';
                 displayExistingImage(imageUrl);
             @else 
                 //nothing
@@ -118,9 +106,9 @@
             let url;
             const articleId = $('#id').val();
             if (articleId) {
-                url = '{{ route('gallery.update', ':id') }}'.replace(':id', articleId);
+                url = '{{ route('header.update', ':id') }}'.replace(':id', articleId);
             } else {
-                url = '{{ route('gallery.create') }}';
+                url = '{{ route('header.create') }}';
             }
 
             const imageInput = $('#image')[0];

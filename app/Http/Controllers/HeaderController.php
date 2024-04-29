@@ -13,7 +13,8 @@ class HeaderController extends Controller
     public function index(Request $request)
     {
         $data = [
-            'title' => 'Header'
+            'title' => 'Header',
+            'content' => Header::limit(1)->get(),
         ];
     
         if (!$request->ajax() && $request->isMethod('GET')) {
@@ -56,10 +57,7 @@ class HeaderController extends Controller
 
         if ($request->ajax() && $request->isMethod('POST')) {
             $validator = Validator::make($request->all(), [
-                'title' => 'required|string|max:255',
-                'content' => 'required',
-                'kategori' => 'required',
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                'img' => 'image|mimes:png|max:2048',
             ]);
     
             if ($validator->fails()) {
@@ -74,7 +72,7 @@ class HeaderController extends Controller
                 $image = $request->file('image');
                 $imageName = time().'.'.$image->getClientOriginalExtension();
                 $data['img'] = $imageName;
-                $image->storeAs('public/foto_artikel', $imageName);
+                $image->storeAs('public/header/', $imageName);
             }
             
             $create = Header::create($data);
@@ -89,36 +87,39 @@ class HeaderController extends Controller
 
     public function update(Request $request, $id)
     {
-        $header = Header::find($id);
-    
-        if (!$header) {
+        $data = [
+            'title' => 'Update',
+            'content' => Header::find($id),
+        ];
+
+        if (!$data['content']) {
             return Response::json(['message' => 'Header not found!', 'code' => 404]);
         }
     
+        if ($request->isMethod('GET')) {
+            return view('page.dashboard.header.create', compact('data'));
+        }
+        
         $validator = Validator::make($request->all(), [
-            'img' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'img' => 'image|mimes:png|max:2048',
         ]);
     
         if ($validator->fails()) {
             return Response::json(['message' => $validator->errors()->first(), 'code' => 422]);
         }
     
-        if ($request->hasFile('img')) {
-            if ($header->img) {
-                Storage::delete('public/foto_header/' . $header->img);
-            }
-    
-            $image = $request->file('img');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->storeAs('public/foto_header', $imageName);
-    
-            $header->img = $imageName;
-            $header->save();
-    
-            return Response::json(['message' => 'Image updated successfully', 'code' => 200]);
+        if ($data['content']->img) {
+            Storage::delete('public/header/' . $data['content']->img);
         }
-    
-        return Response::json(['message' => 'No image provided for update', 'code' => 422]);
+
+        $image = $request->file('image');
+        $imageName = 'header.'.$image->getClientOriginalExtension();
+        $image->storeAs('public/header', $imageName);
+
+        $data['content']->img = $imageName;
+        $data['content']->save();
+
+        return Response::json(['message' => 'Image updated successfully', 'code' => 200]);
     }    
 
     public function destroy($id)
@@ -130,7 +131,7 @@ class HeaderController extends Controller
         }
 
         $data->delete();
-        Storage::delete('public/foto_header/' . $data->img);
+        Storage::delete('public/header/' . $data->img);
 
         return Response::json(['message' => 'data deleted successfully', 'code' => 200]);
     }

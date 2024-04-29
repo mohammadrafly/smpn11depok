@@ -1,4 +1,4 @@
-<nav class="lg:px-32 md:px-32 sm:px-32 z-1 relative h-[600px] text-white p-5 bg-center bg-cover" style="background-image: url('{{ asset('assets/img/cover.png') }}');">
+<nav class="lg:px-32 md:px-32 sm:px-32 z-1 relative h-[600px] text-white p-5 bg-center bg-cover" style="background-image: url('{{ asset('storage/header/header.png') }}');">
     <div class="absolute inset-0 bg-gradient-to-b from-black to-transparent opacity-100">
         <div class="flex justify-center items-center h-full">
             @if ($data['title'] === 'Berita' or $data['title'] === 'Activity')
@@ -32,7 +32,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </a>
-                    <ul x-show="open" @click.away="open = false" class="absolute text-sm bg-[#f47d22ad] shadow-md rounded mt-2 w-40">
+                    <ul x-show="open" @click.away="open = false" class="absolute text-sm bg-[#9e9e9eaf] shadow-md rounded mt-2 w-40">
                         <li>
                             <a href="{{ route('home.kepalasekolah')}}" class="block px-3 py-3 text-white hover:text-[#f47d22] hover:bg-white m-2 rounded-lg transition duration-300">
                                 Kepala Sekolah

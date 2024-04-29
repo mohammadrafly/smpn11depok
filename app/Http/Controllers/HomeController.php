@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Artikel;
 use App\Models\Activity;
 use App\Models\Category;
+use App\Models\Gallery;
 use App\Models\Review;
 use App\Models\SocialMedia;
 use App\Models\Teacher;
@@ -86,8 +87,10 @@ class HomeController extends Controller
 
     public function fasilitas()
     {
+        $category = Category::where('nama', 'Fasilitas')->first();
         $data = [
             'title' => 'Fasilitas',
+            'content' => $category === null ? null : Gallery::with('category')->where('id_categori', $category->id)->get(),
         ]; 
         
         return view('page.home.fasilitas', compact('data'));
@@ -97,6 +100,7 @@ class HomeController extends Controller
     {
         $data = [
             'title' => 'Gallery',
+            'content' => Gallery::all(),
         ]; 
         
         return view('page.home.gallery', compact('data'));

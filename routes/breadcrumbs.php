@@ -37,7 +37,7 @@ Breadcrumbs::for('home.guru', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('home.tatatertib', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('Tatatertib', route('home.tatatertib'));
+    $trail->push('Tata Tertib', route('home.tatatertib'));
 });
 
 Breadcrumbs::for('home.fasilitas', function (BreadcrumbTrail $trail) {
