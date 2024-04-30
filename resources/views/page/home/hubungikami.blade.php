@@ -21,15 +21,9 @@
 @section('script')
 <script>
 function composeEmail(event) {
-    event.preventDefault(); // Prevent the form from submitting
-
-    // Get the message from the form
+    event.preventDefault();
     var pesan = document.getElementById('pesan').value;
-
-    // Construct the mailto URL with the message as the body
     var mailtoLink = "mailto:sebelas@smpn11-depok.sch.id?subject=New Message from Website&body=" + encodeURIComponent(pesan);
-
-    // Open the default email client
     window.location.href = mailtoLink;
 }
 </script>
