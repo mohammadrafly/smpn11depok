@@ -2,8 +2,8 @@
 
 @section('content')
 
-<div class="w-full mt-[520px] justify-center flex absolute inset-0 lg:px-32 md:px-32 sm:px-32 p-5">
-    <div class="rounded-lg p-10 w-fit h-fit bg-white justify-center shadow-lg items-center grid lg:grid-cols-3 gap-10">
+<div class="md:relative w-full md:-mt-[100px] lg:-mt-[100px] justify-center flex lg:px-32 md:px-32 sm:px-32 p-5">
+    <div class="rounded-lg shadow-2xl p-10 w-fit h-fit bg-white justify-center items-center grid lg:grid-cols-3 gap-10">
         <a href="#" class="px-10 flex items-center hover:bg-gray-200 py-5 rounded-2xl transition duration-300">
             <div class="bg-[#f8f1eb] rounded-full p-3">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-[#f47d22]">
@@ -31,7 +31,7 @@
     </div>
 </div>
 
-<div class="lg:px-32 md:px-32 sm:px-32 mt-[300px]">
+<div class="lg:px-32 md:px-32 sm:px-32 md:mt-[300px] mt-[100px]">
     <div class="flex justify-center items-center mt-20">
         <h1 class="text-4xl font-bold">Berita Terbaru</h1>
     </div>
@@ -125,9 +125,9 @@
         <div class="flex justify-center items-center mb-10">
             <h1 class="text-4xl text-black font-bold">Review</h1>
         </div>
-        <div class="block md:grid grid-cols-6 gap-5">
+        <div class="block md:grid grid-cols-6 gap-5 mt-20">
             <div class="col-span-2">
-                <div class="mb-5">
+                <div class="mb-10 flex justify-center items-center text-center">
                     <h1 class="text-4xl font-bold">
                         What Our </br>
                         <span class="text-[#f47d22] underline">Students</span> Say</br>
@@ -135,7 +135,7 @@
                     </h1>
                 </div>
                 <div class="mb-5">
-                    <div class="flex items-center gap-10 text-[#f47d22]">
+                    <div class="flex justify-center items-center gap-10 text-[#f47d22]">
                         <button id="leftButton" class="rounded-full border p-3 border-[#f47d22]">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -152,7 +152,7 @@
             <div class="col-span-4">
                 <div id="carousel" class="relative isolate overflow-hidden bg-white px-6 lg:flex grid grid-cols-4 gap-5">
                     @foreach ($data['review'] as $review)
-                    <div class="mx-auto max-w-xl col-span-2">
+                    <div class="mx-auto max-w-xl col-span-2 gap-5 translate-x-12 transition-all duration-300">
                         <figure>
                             <figcaption class="flex items-center">
                                 <img class="h-20 w-20 mr-5 object-cover rounded-full" src="{{ $review->img ? asset('storage/foto_reviewer/'.$review->img) : 'https://via.placeholder.com/50x50'}}" alt="">
@@ -192,13 +192,6 @@ function showItems() {
             item.style.display = 'none';
         }
     });
-
-    // Add animation class to the carousel
-    carousel.classList.add('animate-slide');
-    // Remove animation class after a short delay to prevent animation on next slide
-    setTimeout(() => {
-        carousel.classList.remove('animate-slide');
-    }, 500); // Adjust according to the transition duration
 }
 
 leftButton.addEventListener('click', () => {
