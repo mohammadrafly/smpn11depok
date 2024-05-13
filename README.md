@@ -15,7 +15,8 @@ Pastikan Anda telah menginstal Node.js dan Composer sebelum memulai.
 
 ```bash
 $ npm install
-
+```
+```bash
 $ composer install
 ```
 
@@ -23,7 +24,8 @@ $ composer install
 
 ```bash
 $ php artisan migrate
-
+```
+```bash
 $ php artisan db:seed User
 ```
 
@@ -31,6 +33,7 @@ $ php artisan db:seed User
 
 ```bash
 $ php artisan server
-
+```
+```bash
 $ npm run dev
 ```
