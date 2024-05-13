@@ -5,7 +5,7 @@
 
 ## Langkah" Install 
 
-- Migrasi & Seeding
-    $ php artisan migrate
-
-    $ php artisan db:seed User
+- Migrasi Database
+    `php artisan migrate`
+- Seeding User
+    `php artisan db:seed User`
