@@ -15,6 +15,22 @@ Pastikan Anda telah menginstal Node.js dan Composer sebelum memulai.
 
 ```bash
 $ npm install
+
 $ composer install
+```
+
+### 2. Migrasi dan Seeding
+
+```bash
 $ php artisan migrate
+
 $ php artisan db:seed User
+```
+
+### 2. Run Serverr dan Vite
+
+```bash
+$ php artisan server
+
+$ npm run dev
+```
